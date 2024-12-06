@@ -4,15 +4,21 @@ const path = require('path')
 const blogs = require('../data/blogs.js')
 
 router.get('/', (req,res) => {
-    res.sendFile(path.join(__dirname,'../templates/index.html'))
+    res.render('home');
 })
 
 router.get('/blog', (req,res) => {
-    blogs.forEach(element => {
-        console.log(element.quote)
-        console.log(element.author)
+    res.render('bloghome', {
+        blogs: blogs
     });
-    res.sendFile(path.join(__dirname,'../templates/index.html'))
+})
+
+router.get('/blogpost/:slug', (req,res) => {
+    myblog = blogs.filter( (e) => {
+        return e.slug == req.params.slug
+    })
+    console.log(myblog)
+    res.sendFile(path.join(__dirname,'../templates/blogpage.html'))
 })
 
 module.exports = router
